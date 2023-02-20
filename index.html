@@ -9,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Abdoulaye Leye" />
+<meta name="author" content="Abdoulaye Leye (GiS, Data Analyst Specialist)" />
 
 <meta name="date" content="2023-02-12" />
 
@@ -4480,7 +4480,7 @@ border-radius: 0px;
 
 
 <h1 class="title toc-ignore">Analyse Spatiale Dans R</h1>
-<h4 class="author">Abdoulaye Leye</h4>
+<h4 class="author">Abdoulaye Leye (GiS, Data Analyst Specialist)</h4>
 <h4 class="date">2023-02-12</h4>
 
 </div>
@@ -4654,8 +4654,8 @@ un DataFrame avec la table attributaire de notre jeux de données
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> <span class="fu">select</span>(REG, DEPT, CCRCA, SUP_HA, Milieu, Masculin, Feminin, TOTAL) <span class="sc">%&gt;%</span></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">5</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">datatable</span>()</span></code></pre></div>
-<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-9b9609bffcd193da131c" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-9b9609bffcd193da131c">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5"],["DAKAR","DAKAR","DAKAR","DAKAR","DAKAR"],["DAKAR","DAKAR","DAKAR","DAKAR","DAKAR"],["CAMBERENE","PARCELLES ASSAINIES","PATTE D'OIE","YOFF","NGOR"],[176.211179151,361.229493686,319.680255445,1385.58954765,435.023028118],["Urbain","Urbain","Urbain","Urbain","Urbain"],[26287,80792,20126,42639,8734],[26133,78706,20980,46803,8649],[52420,159498,41106,89442,17383]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>REG<\/th>\n      <th>DEPT<\/th>\n      <th>CCRCA<\/th>\n      <th>SUP_HA<\/th>\n      <th>Milieu<\/th>\n      <th>Masculin<\/th>\n      <th>Feminin<\/th>\n      <th>TOTAL<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[4,6,7,8]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-0aea664f4f3cfc8656cb" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-0aea664f4f3cfc8656cb">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5"],["DAKAR","DAKAR","DAKAR","DAKAR","DAKAR"],["DAKAR","DAKAR","DAKAR","DAKAR","DAKAR"],["CAMBERENE","PARCELLES ASSAINIES","PATTE D'OIE","YOFF","NGOR"],[176.211179151,361.229493686,319.680255445,1385.58954765,435.023028118],["Urbain","Urbain","Urbain","Urbain","Urbain"],[26287,80792,20126,42639,8734],[26133,78706,20980,46803,8649],[52420,159498,41106,89442,17383]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>REG<\/th>\n      <th>DEPT<\/th>\n      <th>CCRCA<\/th>\n      <th>SUP_HA<\/th>\n      <th>Milieu<\/th>\n      <th>Masculin<\/th>\n      <th>Feminin<\/th>\n      <th>TOTAL<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[4,6,7,8]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <p>L’agrégation de données est le processus de regroupement de données
 selon certaines caractéristiques ou dimensions et la création de
 sommaires ou d’informations agrégées à partir de ces données. Ce
@@ -4671,8 +4671,8 @@ plus précise de notre <strong>DataFrame</strong>.</p>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(REG) <span class="sc">%&gt;%</span> </span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Population =</span> <span class="fu">sum</span>(TOTAL)) <span class="sc">%&gt;%</span> </span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">datatable</span>()</span></code></pre></div>
-<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-93080e70264c5c9e6907" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-93080e70264c5c9e6907">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14"],["DAKAR","DIOURBEL","FATICK","KAFFRINE","KAOLACK","KEDOUGOU","KOLDA","LOUGA","MATAM","SAINT-LOUIS","SEDHIOU","TAMBACOUNDA","THIES","ZIGUINCHOR"],[3137196,1497460,706240,566987,960877,151357,642716,874197,576620,908945,452995,646620,1788865,540981]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>REG<\/th>\n      <th>Population<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":2},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-e69c878711c3137962de" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-e69c878711c3137962de">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14"],["DAKAR","DIOURBEL","FATICK","KAFFRINE","KAOLACK","KEDOUGOU","KOLDA","LOUGA","MATAM","SAINT-LOUIS","SEDHIOU","TAMBACOUNDA","THIES","ZIGUINCHOR"],[3137196,1497460,706240,566987,960877,151357,642716,874197,576620,908945,452995,646620,1788865,540981]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>REG<\/th>\n      <th>Population<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":2},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="graphique-en-colonne-verticale-avec-ggplot2" class="section level3" number="0.2.5">
 <h3><span class="header-section-number">0.2.5</span> Graphique en
