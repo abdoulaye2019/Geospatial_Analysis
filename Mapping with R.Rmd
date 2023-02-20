@@ -1,0 +1,221 @@
+---
+title: "Analyse Spatiale Dans R"
+date: "2023-02-12"
+author: Abdoulaye Leye (GiS, Data Analyst Specialist)
+output: 
+   html_document:
+     code_folding: hide
+     theme: lumen
+     highlight: espresso
+     toc: true
+     number_sections: true
+     toc_depth: 4
+     toc_float: true
+     collapsed: false
+---
+
+<style>
+body{
+  font-family: 'Oxygen', sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+h1,h2,h3,h4 {
+  font-family: 'Raleway', sans-serif;
+}
+
+.container { width: 1000px; }
+h3 {
+  background-color: #D4DAEC;
+  text-indent: 100px; 
+}
+h4 {
+  text-indent: 100px;
+}
+
+g-table-intro h4 {
+  text-indent: 0px;
+}
+</style>
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+library(sf)
+library(klippy)
+```
+
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy("")
+```
+
+## Utilsation des Packages ggplot2 et sf
+
+L'analyse de données spatiales consiste à explorer, visualiser et modéliser des données géographiques pour en extraire des informations utiles. R et RStudio sont des outils puissants pour l'analyse de données spatiales en raison de la disponibilité de packages tels que `sf`, `sp`, `raster` et `leaflet` qui permettent de travailler facilement avec des données géospatiales.
+
+Pour commencer à travailler avec des données spatiales dans R, vous devez d'abord charger les packages nécessaires et les données en utilisant les commandes suivantes :
+
+- `library(ggplot2)` et `library(sf)` ces deux packages seront utilisés dans cet article.Rmarkdown ![Rmarkdown](rmarkdown_logo.png){width=5%} qui est language accesseble et trés simple pour sera utilisé pour réaliser les travaux
+
+---
+
+## Les bibliothèques **ggplot2** et **sf**:
+### Le package **gglot2**:
+[ggplot2]('https://ggplot2.tidyverse.org/') est un package populaire pour la visualisation de données dans R. Il fournit une interface de haut niveau pour créer des graphiques complexes à partir de données tabulaires. La force de `ggplot2` réside dans sa capacité à produire des graphiques élégants et informatifs en utilisant un langage simple et intuitif pour décrire les différents éléments d'un graphique.
+ <https://ggplot2.tidyverse.org/>.
+
+Le package utilise un système de "grammaire de la géométrie" pour décrire les différentes couches d'un graphique. Chaque couche représente un aspect différent des données, tels que les points, les barres, les lignes, les aires de remplissage, etc. Vous pouvez facilement ajouter, supprimer et personnaliser ces couches pour obtenir un graphique qui répond à vos besoins.
+
+Pour utiliser `ggplot2`, vous devez d'abord charger le package :
+
+```{r ggplot2, class.source='klippy'}
+library(ggplot2)
+```
+
+### Le Package **Sf**:
+
+[sf]('https://cran.r-project.org/web/packages/sf/index.html') est un package de R pour la manipulation de données géospatiales vectorielles. Il fournit un ensemble de fonctions pour travailler avec des données géospatiales en utilisant le format de données simplifié (Simple Features), qui est un standard industriel pour les données géospatiales vectorielles.
+
+Avec sf, vous pouvez facilement créer, manipuler et visualiser des données géospatiales vectorielles. Il vous permet également de travailler avec des données géospatiales dans un format R standard, ce qui vous permet de bénéficier de l'intégration avec d'autres packages R pour la visualisation, la modélisation et l'analyse de données.
+
+Pour utiliser `sf`, vous devez d'abord charger le package :
+
+```{r Sf}
+library(sf)
+```
+
+Ensuite, vous pouvez charger des données géospatiales vectorielles à partir de différents formats de fichiers, tels que les fichiers `Shapefile`, les fichiers `GeoJSON` et les fichiers `CSV`. Par exemple, pour charger des données depuis un fichier `Shapefile`, vous pouvez utiliser le code suivant :
+
+```{r}
+communes <- read_sf("../shapefiles/communes_senegal_2015.shp")
+regions <- read_sf("../shapefiles/gadm36_SEN_1.shp")
+```
+
+Une fois que vous avez chargé les données, vous pouvez les visualiser en utilisant la fonction ggplot() de la bibliothèque ggplot2 et en ajoutant une couche géospatiale en utilisant la fonction geom_sf()
+
+Ici on peut visualiser les données pour avoir une aperçue gloables des différentes variables de la tables attributaire. Example les communes du Sénégal.
+
+```{r, warning=FALSE}
+plot(regions)
+```
+
+Une fois les données chargées, vous pouvez les manipuler `sf` et les visualiser avec `ggplot2`. Par exemple, pour visualiser les données sur une carte, vous pouvez utiliser le code suivant :
+
+`sf` offre également un large éventail de fonctions pour manipuler les données géospatiales, telles que la transformation de coordonnées, la projection, la dissociation et l'agrégation des données, la création de buffers, l'intersection et la fusion de données, etc.
+
+_Visualisation simple de la couche régions du Sénégal._
+
+```{r}
+ggplot() +
+  geom_sf(data = regions)
+```
+
+_Définition des intervalles et labelisation de la légende._
+
+```{r}
+communes$Density <- cut(communes$TOTAL, breaks = c(0,2000,10000,20000,30000,Inf),
+                       labels = c('< 1000', '1000-10000', '10000-20000', '20000-30000', '> 30000'))
+```
+
+### Réaliser une Carte avec la fonction **geom_sf**
+
+`geom_sf()` est une géométrie dans le package `ggplot2` qui permet de visualiser des données spatiales dans __R__. Il est spécialement conçu pour travailler avec des données géospatiales structurées dans le format sf (simple features) et est conçu pour remplacer la géométrie `geom_map()` utilisée dans les versions antérieures de `ggplot2`.
+
+Pour utiliser `geom_sf()`, vous devez d'abord avoir des données géospatiales sous forme de sf object, puis les charger dans ggplot2 en utilisant la fonction `ggplot()`.Example d'utilisation:
+
+```{r class.source = 'fold-show'}
+ggplot()+
+  geom_sf(aes(fill = Density),color = 'transparent', data = communes)+
+  geom_sf(fill = 'transparent', color = 'white', data = regions) +
+  scale_fill_viridis_d(name = "Population/Communes",
+                       guide = guide_legend(
+                         direction = 'horizontal',
+                         title.position = 'top',
+                         title.hjust = .5,
+                         label.hjust = .5,
+                         label.position = 'bottom',
+                         keywidth = 3,
+                         keyheight = .5
+                       ))+
+  labs(title = "Démographie du Sénégal",
+       subtitle = "Répartition de population du Sénégal par Communes",
+       caption = c("Sources: ASER, ANSD National Agence Of Statistique and Demography 2015"))+
+  theme_void()+
+  theme(title = element_text(face = 'bold'),
+        legend.position = 'bottom')
+```
+
+### Analyse Exploratoire **EDA**
+
+L'analyse exploratoire des données (EDA en anglais) est une étape importante dans le processus d'analyse des données, qui consiste à examiner les données pour découvrir les relations, les modèles et les tendances cachées. L'objectif principal de l'EDA est de comprendre les données sous différents angles, en utilisant des techniques graphiques et statistiques pour mieux les visualiser et les comprendre. Ici il est possible d'utiliser la fonction `st_drop_geometry` pour avoir un DataFrame avec la table attributaire de notre jeux de données __Shapefile__
+
+```{r}
+library(DT)
+data <- st_drop_geometry(communes)
+data %>% select(REG, DEPT, CCRCA, SUP_HA, Milieu, Masculin, Feminin, TOTAL) %>%
+  head(5) %>% 
+  datatable()
+```
+L'agrégation de données est le processus de regroupement de données selon certaines caractéristiques ou dimensions et la création de sommaires ou d'informations agrégées à partir de ces données. Ce processus est souvent utilisé pour résumer de grandes quantités de données en informations plus facilement compréhensibles et exploitables.Dans cet example il est possible d'utiliser les fonctions `group_by` et `summarise` dans la package `dplyr` pour faire une aggrégation des donées faire l'intégration avec la bibliothéque `DT` afin d'avoir une idée plus précise de notre __DataFrame__.
+
+```{r}
+library(DT)
+data %>% 
+  group_by(REG) %>% 
+  summarise(Population = sum(TOTAL)) %>% 
+  datatable()
+```
+
+### Graphique en Colonne Verticale avec `ggplot2`
+
+```{r class.source = 'fold-show', message=FALSE}
+options(scipen = 999)
+library(scales)
+data %>% 
+  group_by(REG) %>% 
+  summarise(Population = sum(TOTAL)) %>% 
+  ggplot(aes(x = reorder(REG,-Population),y =  Population)) +
+  geom_col(color = 'tomato', fill = 'tomato') +
+  theme_minimal() +
+  labs(title = "Population par Régions",
+       subtitle = "Répartition de la population du Sénégal par région en 2015",
+       x = "Population",
+       y = "Régions") +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+```
+
+### La fonction `pivot_longer`
+
+pivot_longer() est une fonction de transformation de données dans le package tidyr de R qui permet de transformer un jeu de données d'un format large en un format long en fusionnant plusieurs colonnes en une seule colonne avec des noms de colonne séparés par un caractère commun.
+
+```{r}
+data_long <- data %>% 
+  group_by(REG) %>% 
+  summarise(Masculin = sum(Masculin), Feminin = sum(Feminin)) %>%
+  pivot_longer(!REG, names_to = "Groupe", values_to = "Valeur") %>%
+  ungroup() %>%
+  arrange(Valeur) %>% 
+  mutate(order = row_number())
+```
+
+### Graphique en Colonne Verticale Groupé avec `ggplot2`
+
+```{r}
+
+
+ggplot(data_long, aes(x = reorder(REG, -Valeur), fill=Groupe, y=Valeur)) + 
+  geom_bar(position="dodge", stat="identity", ) +
+  scale_fill_viridis_d() +
+  theme_minimal() +
+  labs(title = "Population par Régions et par Sexe",
+       subtitle = "Répartition de la population du Sénégal par région et par sexe en 2015",
+       x = "Régions",
+       y = "Population") +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+```
+
+### Conclusion
+R et RStudio sont des outils puissants pour l'analyse de données spatiales, et il existe de nombreux packages disponibles pour vous aider à exploiter pleinement les capacités de ces outils. Il est donc important de prendre le temps d'apprendre à utiliser ces packages et de comprendre les concepts sous-jacents pour pouvoir réaliser des analyses spatiales efficaces.
